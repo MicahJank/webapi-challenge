@@ -35,6 +35,40 @@ router.post('/', validateBody, (req, res) => {
 });
 
 
+router.put('/:id', validateID, validateBody, (req, res) => {
+    const { id } = req.params;
+    Project.update(id, req.body)
+        .then(project => {
+            res.status(200).json(project);
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'Could not update the project',
+                error: err
+            });
+        });
+});
+
+
+router.delete('/:id', validateID, (req, res) => {
+    const { id } = req.params;
+    Project.remove(id)
+        .then(num => {
+            if(num > 0) {
+                res.status(200).json(req.project);
+            } else {
+                res.status(404).json({ message: 'Could not find the project with the specified id' });
+            };
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'Could not remove the project from the database',
+                error: err
+            });
+        });
+});
+
+
 // middleware
 function validateID(req, res, next) {
     const { id } = req.params;

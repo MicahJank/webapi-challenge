@@ -51,7 +51,8 @@ function validateID(req, res, next) {
     const { id } = req.params;
     
     Action.get(id)
-        .then(action => {
+    .then(action => {
+        console.log(action);
             if(action) {
                 req.action = action;
                 next();
@@ -62,6 +63,7 @@ function validateID(req, res, next) {
             }
         })
         .catch(err => {
+            console.log(err);
             res.status(500).json({
                 message: 'There was a problem getting the action from the database'
             });
@@ -71,7 +73,6 @@ function validateID(req, res, next) {
 function validateBody(req, res, next) {
     const { project_id, description, notes } = req.body;
 
-    const { project_id, description, notes } = req.body;
     if(Object.entries(req.body).length === 0) {
         res.status(400).json({ message: 'No body data was found' });
     } else if(!project_id || !description || !notes) {

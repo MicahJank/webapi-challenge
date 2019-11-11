@@ -69,6 +69,29 @@ router.delete('/:id', validateID, (req, res) => {
 });
 
 
+
+// post a new action to the specific project
+router.post('/:id/actions', validateID, (req, res) => {
+    const { project_id, description, notes } = req.body;
+    if(Object.entries(req.body).length === 0) {
+        res.status(400).json({ message: 'No body data was found' });
+    } else if(!project_id || !description || !notes) {
+        res.status(400).json({ message: `Body is missing data. Please check that you have a 'project_id' field, 'description' field and 'notes' field inside the body request. ` });
+    } else {
+        Action.insert(req.body)
+            .then(action => {
+                res.status(201).json(action);
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message: 'There was a problem inserting the action to the specified project',
+                    error: err
+                });
+            });
+    };
+});
+
+
 // middleware
 function validateID(req, res, next) {
     const { id } = req.params;

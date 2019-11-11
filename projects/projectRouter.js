@@ -69,6 +69,21 @@ router.delete('/:id', validateID, (req, res) => {
 });
 
 
+// get all project actions for a specific project
+router.get('/:id/actions', validateID, (req, res) => {
+    const { id } = req.params;
+    Project.getProjectActions(id)
+        .then(actions => {
+            res.status(200).json(actions);
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'There was a problem getting the actions for the specified project',
+                error: err
+            });
+        });
+});
+
 
 // post a new action to the specific project
 router.post('/:id/actions', validateID, (req, res) => {

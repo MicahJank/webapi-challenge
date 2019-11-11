@@ -117,8 +117,7 @@ function validateID(req, res, next) {
                 next();
             } else {
                 res.status(404).json({
-                    message: `No project with id: ${id} was found.`,
-                    error: err
+                    message: `No project with id: ${id} was found.`
                 });
             };
         })

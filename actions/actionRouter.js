@@ -52,7 +52,6 @@ function validateID(req, res, next) {
     
     Action.get(id)
     .then(action => {
-        console.log(action);
             if(action) {
                 req.action = action;
                 next();
@@ -63,7 +62,6 @@ function validateID(req, res, next) {
             }
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({
                 message: 'There was a problem getting the action from the database'
             });
